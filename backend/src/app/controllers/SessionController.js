@@ -5,6 +5,7 @@ import Admin from '../models/Admin';
 
 class SessionController {
   async store(req, res) {
+    console.log(req.body);
     const schema = Yup.object().shape({
       email: Yup.string().required(),
       password: Yup.string().required(),

@@ -7,13 +7,32 @@ class PostController {
   async index(req, res) {
     const { page = 1 } = req.query;
 
+    const totPosts = await Post.countDocuments();
+
     const posts = await Post.find()
       .populate('author', 'name email')
       .populate('category', 'title description imageURL')
-      .limit(12)
-      .skip((page - 1) * 12);
+      .limit(2)
+      .skip((page - 1) * 2)
+      .populate()
+      .sort({ createdAt: 'desc' });
 
-    return res.json(posts);
+    return res.json({ page, totPosts, posts });
+  }
+
+  async show(req, res) {
+    const { id } = req.params;
+
+    try {
+      const post = await Post.findById(id).populate(
+        'category',
+        'title description imageURL'
+      );
+
+      return res.json(post);
+    } catch (err) {
+      return res.status(404).json({ error: 'Post not found' });
+    }
   }
 
   async store(req, res) {
@@ -69,17 +88,34 @@ class PostController {
 
       await post.updateOne(req.body);
 
-      // TO DO
-      /*
-      think what's the best approach get data again
-      or get one data updated and put on the hook
-      */
       const postUpdated = await Post.findById(id);
 
       return res.json(postUpdated);
     } catch (err) {
       return res.json(err);
     }
+  }
+
+  async destroy(req, res) {
+    const { id } = req.params;
+
+    const isSuperAdmin = await Admin.findById(req.userId)
+      .where('superAdmin')
+      .equals(true);
+
+    const post = await Post.findById(id);
+
+    if (!post) {
+      return res.status(404).json({ error: 'Post not found' });
+    }
+
+    if (String(post.author) !== req.userId || !isSuperAdmin) {
+      return res.status(401).json({ error: 'Not allowed.' });
+    }
+
+    post.deleteOne();
+
+    return res.json();
   }
 }
 

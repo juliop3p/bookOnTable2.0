@@ -5,13 +5,29 @@ import Post from '../models/Post';
 
 class CategoryController {
   async index(req, res) {
-    const { page = 1 } = req.query;
+    const { page = 1, all = false } = req.query;
+
+    const totCategories = await Category.countDocuments();
+
+    const limit = all ? 0 : 2;
 
     const categories = await Category.find({}, '_id title description imageURL')
-      .limit(12)
-      .skip((page - 1) * 12);
+      .limit(limit)
+      .skip((page - 1) * limit);
 
-    return res.json(categories);
+    return res.json({ page, totCategories, categories });
+  }
+
+  async show(req, res) {
+    const { id } = req.params;
+
+    const category = await Category.findById(id);
+
+    if (!category) {
+      return res.status(404).json({ error: 'Category not found' });
+    }
+
+    return res.json(category);
   }
 
   async store(req, res) {
@@ -78,7 +94,13 @@ class CategoryController {
           .json({ error: 'Cannot remove associated category.' });
       }
 
-      await Category.deleteOne({ _id: id });
+      const category = await Category.findById(id);
+
+      if (!category) {
+        throw new Error();
+      }
+
+      category.deleteOne();
     } catch (err) {
       return res.status(400).json({ error: 'Category not found.' });
     }

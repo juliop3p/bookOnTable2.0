@@ -1,0 +1,33 @@
+.post-filter {
+  width: 120px;
+  height: 24px;
+  border-radius: 12px;
+  border: 1px solid #666;
+  overflow: hidden;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.post-filter .separator {
+  width: 1px;
+  background-color: #666;
+  height: 20px;
+}
+
+.post-filter .movies, .tvshows {
+  width: 100%;
+  cursor: pointer;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.post-selected {
+  background-color: #333;
+  color: #fff;
+}
+
+

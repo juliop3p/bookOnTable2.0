@@ -32,7 +32,7 @@ class SuperAdminController {
         superAdmin,
       });
     } catch (err) {
-      return res.status(400).json({ error: 'Could not delete.' });
+      return res.status(400).json({ error: 'Could not update.' });
     }
   }
 

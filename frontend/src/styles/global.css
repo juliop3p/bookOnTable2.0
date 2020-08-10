@@ -1,0 +1,28 @@
+:root {
+  --mainBg: #f0f0f5;
+  --textColor: #333333;
+  --lightGrey: #81757D;
+}
+
+body {
+  background: var(--mainBg);
+  color: var(--textColor);
+}
+
+a {
+  text-decoration: none;
+  color: var(--textColor);
+}
+
+a:hover {
+  text-decoration: none;
+  color: var(--textColor);
+}
+
+.pointer {
+  cursor: pointer
+}
+
+.height-100 {
+  height: 100vh;
+}

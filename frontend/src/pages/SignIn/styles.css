@@ -1,0 +1,10 @@
+form .input-group span {
+  width: 100%;
+  text-align: center;
+  padding-top: 8px;
+  color: #f64c75;
+}
+
+.bg-darkpurple-p {
+  background-color: var(--darkpurple);
+}
