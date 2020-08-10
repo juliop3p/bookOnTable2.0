@@ -5,7 +5,6 @@ import Admin from '../models/Admin';
 
 class SessionController {
   async store(req, res) {
-    console.log(req.body);
     const schema = Yup.object().shape({
       email: Yup.string().required(),
       password: Yup.string().required(),
@@ -24,7 +23,7 @@ class SessionController {
         id,
         name,
         email,
-        token: jwt.sign({ id }, 'supersecret', {
+        token: jwt.sign({ id }, process.env.SECRET, {
           expiresIn: '7d',
         }),
       });
