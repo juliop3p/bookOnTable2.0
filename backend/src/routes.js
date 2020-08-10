@@ -2,7 +2,7 @@ import { Router } from 'express';
 
 import auth from './app/middlewares/auth';
 
-import AdminControler from './app/controllers/AdminControler';
+import AdminControler from './app/controllers/AdminController';
 import SessionController from './app/controllers/SessionController';
 import SuperAdminController from './app/controllers/SuperAdminController';
 import CategoryController from './app/controllers/CategoryController';

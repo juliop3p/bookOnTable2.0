@@ -7,13 +7,14 @@ class Database {
 
   mongo() {
     this.mongoConnection = mongoose.connect(
-      `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD}@omnisstack-a9vqx.mongodb.net/book-on-table?retryWrites=true&w=majority`,
+      process.env.NODE_ENV === 'test'
+        ? process.env.MONGO_URI
+        : process.env.MONGO_URI_TEST,
       {
         useNewUrlParser: true,
         useFindAndModify: false,
         useUnifiedTopology: true,
-      },
-      () => global.console.log('Database Connected')
+      }
     );
   }
 }
